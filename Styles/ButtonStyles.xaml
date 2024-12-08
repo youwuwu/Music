@@ -1,0 +1,141 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <Style TargetType="{x:Type ButtonBase}" x:Key="TransparentBackgroundButtonStyle">
+        <Setter Property="Background" Value="#01FFFFFF" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource MahApps.Styles.Button.FocusVisualStyle.Flat}" />
+        <Setter Property="FontSize" Value="{DynamicResource MahApps.Font.Size.Button.Flat}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryElementsDefaultForeground}" />
+        <Setter Property="Padding" Value="10,5,10,5" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <mah:ClipBorder
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding mah:ControlsHelper.CornerRadius}"
+                        Margin="0"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        x:Name="Border">
+                        <mah:ContentControlEx
+                            Content="{TemplateBinding Content}"
+                            ContentCharacterCasing="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mah:ControlsHelper.ContentCharacterCasing)}"
+                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            Padding="{TemplateBinding Padding}"
+                            RecognizesAccessKey="{TemplateBinding mah:ControlsHelper.RecognizesAccessKey}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            x:Name="PART_ContentPresenter" />
+                    </mah:ClipBorder>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource ElementsDisabledForeground}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style
+        BasedOn="{StaticResource TransparentBackgroundButtonStyle}"
+        TargetType="{x:Type ButtonBase}"
+        x:Key="MouseOverAccentButtonStyle">
+
+        <Setter Property="Padding" Value="0" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Accent}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        BasedOn="{StaticResource MouseOverAccentButtonStyle}"
+        TargetType="ButtonBase"
+        x:Key="PressDownButtonStyle">
+
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <TranslateTransform X="1" Y="1" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource ElementsDisabledForeground}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style
+        BasedOn="{StaticResource MouseOverAccentButtonStyle}"
+        TargetType="ButtonBase"
+        x:Key="SecondaryMouseOverAccentButtonStyle">
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryElementsDefaultForeground}" />
+    </Style>
+
+
+    <Style
+        BasedOn="{StaticResource MouseOverAccentButtonStyle}"
+        TargetType="ButtonBase"
+        x:Key="TilePlayButtonStyle">
+        <Style.Setters>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Path
+                            Data="M768 1408c424 0 768 -344 768 -768s-344 -768 -768 -768s-768 344 -768 768s344 768 768 768zM1152 585c20 11 32 32 32 55s-12 44 -32 55l-544 320c-19 12 -44 12 -64 1c-20 -12 -32 -33 -32 -56v-640c0 -23 12 -44 32 -56c10 -5 21 -8 32 -8s22 3 32 9z"
+                            Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ButtonBase}, Path=Foreground}"
+                            Height="48"
+                            Margin="0,0,0,0"
+                            Stretch="Uniform"
+                            Width="48" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+
+
+    <Style
+        BasedOn="{StaticResource TransparentBackgroundButtonStyle}"
+        TargetType="{x:Type Button}"
+        x:Key="MahApps.Styles.Button.MetroWindow.Light">
+
+
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="MaxHeight" Value="34" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Width" Value="34" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForegroundDisabled}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style
+        BasedOn="{StaticResource MahApps.Styles.Button.MetroWindow.Light}"
+        TargetType="{x:Type Button}"
+        x:Key="MahApps.Styles.Button.MetroWindow.Close.Light.Win10" />
+</ResourceDictionary>

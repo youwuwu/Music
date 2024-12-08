@@ -1,0 +1,294 @@
+﻿<UserControl
+    d:DataContext="{d:DesignInstance playerCommandsBar:PlayerCommandsBarViewModel}"
+    d:DesignHeight="50"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Music.View.PlayerCommandsBar.PlayerCommandsBar"
+    x:Name="ThisPlayerCommandsBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Music="clr-namespace:Music"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="clr-namespace:Music.Player"
+    xmlns:playerCommandsBar="clr-namespace:Music.ViewModel.PlayerCommandsBar"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Slider
+            Height="10"
+            IsMoveToPointEnabled="True"
+            Maximum="{Binding Path=WaveDirectSoundPlayer.TotalTime, Mode=OneWay, Converter={StaticResource TimeSpanToMsConverter}}"
+            Style="{StaticResource PlayerProgressSliderStyle}"
+            Value="{Binding Path=WaveDirectSoundPlayer.CurrentTime, Mode=TwoWay, Converter={StaticResource TimeSpanToMsConverter}}" />
+
+        <Grid
+            Grid.Row="1"
+            Margin="0,4,0,8"
+            ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Cursor="Hand" ShowGridLines="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button
+                    Command="{x:Static Music:Commands.ShowPlayingSongCommand}"
+                    Grid.RowSpan="2"
+                    Height="40"
+                    Margin="20,0,10,0"
+                    Padding="0"
+                    Style="{StaticResource TransparentBackgroundButtonStyle}"
+                    Visibility="{Binding ElementName=ThisPlayerCommandsBar, Path=IsShowCoverButton, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Width="40"
+                    mah:ControlsHelper.CornerRadius="3">
+
+                    <Grid>
+                        <Image
+                            Height="40"
+                            Source="{Binding Path=Album.CoverImageUrl}"
+                            Stretch="Uniform"
+                            Width="40" />
+
+                        <Rectangle
+                            Fill="Black"
+                            Height="40"
+                            Opacity="0"
+                            Width="40"
+                            x:Name="MaskRectangle" />
+
+                        <Path
+                            Data="M165.75,290.187l134.25-108,134.25,112a24.952,24.952,0,0,0,31.75-38.5l-150-125a25,25,0,0,0-31.75,0l-150,120.75a24.97,24.97,0,1,0,31.5,38.75ZM316,305.687a25,25,0,0,0-31.75,0l-150,120.75a25.066,25.066,0,1,0,31.5,39L300,357.187l134.25,112a24.952,24.952,0,0,0,31.75-38.5Z"
+                            Fill="White"
+                            Height="20"
+                            Margin="0,0,0,0"
+                            Opacity="0"
+                            Stretch="Uniform"
+                            Width="20"
+                            x:Name="Icon" />
+                    </Grid>
+
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        AccelerationRatio="0.10"
+                                        DecelerationRatio="0.25"
+                                        Duration="0:0:0.5"
+                                        Storyboard.TargetName="MaskRectangle"
+                                        Storyboard.TargetProperty="(Rectangle.Opacity)"
+                                        To="0.5" />
+
+                                    <DoubleAnimation
+                                        AccelerationRatio="0.10"
+                                        DecelerationRatio="0.25"
+                                        Duration="0:0:0.5"
+                                        Storyboard.TargetName="Icon"
+                                        Storyboard.TargetProperty="(Path.Opacity)"
+                                        To="0.5" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        AccelerationRatio="0.10"
+                                        DecelerationRatio="0.25"
+                                        Duration="0:0:0.5"
+                                        Storyboard.TargetName="MaskRectangle"
+                                        Storyboard.TargetProperty="(Rectangle.Opacity)"
+                                        To="0" />
+
+                                    <DoubleAnimation
+                                        AccelerationRatio="0.10"
+                                        DecelerationRatio="0.25"
+                                        Duration="0:0:0.5"
+                                        Storyboard.TargetName="Icon"
+                                        Storyboard.TargetProperty="(Path.Opacity)"
+                                        To="0" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{DynamicResource SecondaryElementsDefaultForeground}"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Text="{Binding Path=Album.Title, FallbackValue='WX音乐,让生活充满音乐', TargetNullValue='WX音乐,让生活充满音乐'}"
+                    Visibility="{Binding ElementName=ThisPlayerCommandsBar, Path=IsShowAlbumTitle, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <StackPanel
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Orientation="Horizontal">
+
+                    <ToggleButton HorizontalAlignment="Center" Margin="0,0,5,0">
+                        <ToggleButton.Style>
+                            <Style BasedOn="{StaticResource PlayerLikeToggleButtonStyle}" TargetType="{x:Type ToggleButton}" />
+                        </ToggleButton.Style>
+                    </ToggleButton>
+
+
+                    <Button
+                        HorizontalAlignment="Center"
+                        Margin="0,0,5,0"
+                        Style="{StaticResource PlayerUnlikeButtonStyle}" />
+
+                    <Button
+                        HorizontalAlignment="Center"
+                        Margin="0,0,5,0"
+                        Style="{StaticResource PlayerDownloadButtonStyle}" />
+
+                    <Button
+                        HorizontalAlignment="Center"
+                        Margin="0,0,5,0"
+                        Style="{StaticResource PlayerMenuButtonStyle}" />
+                </StackPanel>
+            </Grid>
+
+
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+
+                <ToggleButton
+                    Content="{Binding Path=LoopMode, Converter={StaticResource LoopModeToIconPathConverter}}"
+                    Margin="5,0"
+                    Style="{StaticResource PlayerLoopModeToggleButtonButtonStyle}"
+                    x:Name="LoopModesToggleButton" />
+
+                <Popup
+                    AllowsTransparency="True"
+                    IsOpen="{Binding IsChecked, ElementName=LoopModesToggleButton}"
+                    Margin="30"
+                    Placement="Center"
+                    PlacementTarget="{Binding ElementName=LoopModesToggleButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False"
+                    VerticalOffset="-120">
+
+                    <player:LoopModesSelectPopup DataContext="{Binding}" Margin="40,40" />
+                </Popup>
+
+
+                <Button
+                    Command="{Binding Path=PlayPreviousSongCommand}"
+                    HorizontalAlignment="Center"
+                    Margin="5,0"
+                    Style="{StaticResource PlayerBackButtonStyle}" />
+
+                <Grid>
+                    <Button
+                        Command="{Binding Path=PlayCommand}"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource PlayerPlayButtonStyle}"
+                        Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <Button
+                        Command="{Binding Path=PauseCommand}"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource PlayerPauseButtonStyle}"
+                        Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+
+                <Button
+                    Command="{Binding Path=PlayNextSongCommand}"
+                    HorizontalAlignment="Center"
+                    Margin="5,0"
+                    Style="{StaticResource PlayerForwardButtonStyle}" />
+
+                <ToggleButton
+                    HorizontalAlignment="Center"
+                    Margin="5,0"
+                    x:Name="VolumeToggleButton">
+
+                    <ToggleButton.Style>
+                        <Style BasedOn="{StaticResource VolumeToggleButtonStyle}" TargetType="ToggleButton">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=WaveDirectSoundPlayer.IsMute}" Value="True">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <Path
+                                                    Data="M509.15,838.867l-264.7-216.6H50a50,50,0,0,1-50-50v-300a50,50,0,0,1,50-50H244.5L509.15,5.667A25,25,0,0,1,550,25.017v794.5a25,25,0,0,1-40.85,19.35ZM757.1,455.847,618.581,594.367,585,560.786,723.52,422.267,585,283.747l33.581-33.581L757.1,388.687l138.52-138.52L929.2,283.747l-138.52,138.52L929.2,560.786,895.62,594.367Z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ButtonBase}, Path=Foreground}"
+                                                    Height="16"
+                                                    Margin="0,0,0,0"
+                                                    Stretch="Uniform" />
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+
+
+                <Popup
+                    AllowsTransparency="True"
+                    IsOpen="{Binding IsChecked, ElementName=VolumeToggleButton}"
+                    Margin="30"
+                    Placement="Center"
+                    PlacementTarget="{Binding ElementName=VolumeToggleButton}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False"
+                    VerticalOffset="-150">
+
+                    <player:VolumePopup DataContext="{Binding Path=WaveDirectSoundPlayer}" Margin="40,40" />
+                </Popup>
+            </StackPanel>
+
+
+            <StackPanel
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal"
+                VerticalAlignment="Center">
+
+
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{DynamicResource SecondaryElementsDefaultForeground}"
+                    VerticalAlignment="Center">
+
+                    <Run Text="{Binding Path=WaveDirectSoundPlayer.CurrentTime, Mode=OneWay, StringFormat={}{0:mm}:{0:ss}}" />
+                    <Run Text="/" />
+
+                    <Run Text="{Binding Path=WaveDirectSoundPlayer.TotalTime, Mode=OneWay, StringFormat={}{0:mm}:{0:ss}}" />
+                </TextBlock>
+
+
+                <Button
+                    Content="词"
+                    Margin="6,0"
+                    Style="{StaticResource PlayerLyricsButtonStyle}"
+                    VerticalAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</UserControl>

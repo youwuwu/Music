@@ -1,0 +1,109 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:converters="clr-namespace:Music.Converters"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <converters:MultiplicationConverter Multiplier="0.5" x:Key="HalfConverter" />
+
+
+    <Style TargetType="{x:Type Thumb}" x:Key="MahApps.Styles.Thumb.ScrollBar">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Thumb}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Grid x:Name="ThumbVisual">
+                        <Rectangle
+                            Fill="{TemplateBinding Background}"
+                            RadiusX="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth, Converter={StaticResource HalfConverter}}"
+                            RadiusY="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth, Converter={StaticResource HalfConverter}}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            StrokeThickness="{TemplateBinding BorderThickness}"
+                            x:Name="Background" />
+                        <Rectangle
+                            Fill="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                            Opacity="0"
+                            RadiusX="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth, Converter={StaticResource HalfConverter}}"
+                            RadiusY="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth, Converter={StaticResource HalfConverter}}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            StrokeThickness="{TemplateBinding BorderThickness}"
+                            x:Name="MouseOverRectangle" />
+                        <Rectangle
+                            Fill="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                            Opacity="0"
+                            RadiusX="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth, Converter={StaticResource HalfConverter}}"
+                            RadiusY="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualWidth, Converter={StaticResource HalfConverter}}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            StrokeThickness="{TemplateBinding BorderThickness}"
+                            x:Name="PressedRectangle" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState Storyboard="{StaticResource MahApps.Storyboard.ScrollBarThumbMouseOver}" x:Name="MouseOver" />
+                                <VisualState Storyboard="{StaticResource MahApps.Storyboard.ScrollBarThumbPressed}" x:Name="Pressed" />
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="ThumbVisual" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <ControlTemplate TargetType="{x:Type ScrollBar}" x:Key="MahApps.Templates.ScrollBar.Vertical">
+        <Grid Width="{TemplateBinding Width}" x:Name="VerticalRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="0.00001*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Track
+                Grid.Row="1"
+                IsDirectionReversed="True"
+                x:Name="PART_Track">
+                <Track.Resources>
+                    <system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">
+                        50
+                    </system:Double>
+                </Track.Resources>
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton
+                        Command="ScrollBar.PageUpCommand"
+                        Style="{DynamicResource MahApps.Styles.RepeatButton.ScrollBarLarge}"
+                        x:Name="VerticalLargeDecrease" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <mah:MetroThumb
+                        Margin="1,0,1,0"
+                        Style="{DynamicResource MahApps.Styles.Thumb.ScrollBar}"
+                        mah:ControlsHelper.CornerRadius="3" />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton
+                        Command="ScrollBar.PageDownCommand"
+                        Style="{DynamicResource MahApps.Styles.RepeatButton.ScrollBarLarge}"
+                        x:Name="VerticalLargeIncrease" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" TargetName="VerticalRoot" Value="0.5" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+</ResourceDictionary>

@@ -1,0 +1,164 @@
+﻿<UserControl
+    d:DataContext="{d:DesignInstance model:Album}"
+    mc:Ignorable="d"
+    x:Class="Music.View.Tile.AlbumTile"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Music="clr-namespace:Music"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Music.Model"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <Grid HorizontalAlignment="Left">
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="MainContentTranslateTransform" />
+            </Grid.RenderTransform>
+
+            <mah:ClipBorder
+                CornerRadius="8"
+                Height="256"
+                HorizontalAlignment="Left"
+                Width="256">
+
+                <Grid>
+                    <Image Source="{Binding Path=CoverImageUrl}" />
+
+                    <Rectangle
+                        Fill="#88000000"
+                        Opacity="0"
+                        x:Name="MaskRectangle" />
+                </Grid>
+
+
+            </mah:ClipBorder>
+
+
+            <Button
+                Command="{x:Static Music:Commands.PlayAlbumCommand}"
+                CommandParameter="{Binding}"
+                HorizontalAlignment="Center"
+                Opacity="0"
+                Style="{StaticResource TilePlayButtonStyle}"
+                VerticalAlignment="Center"
+                x:Name="PlayButton" />
+
+            <mah:ClipBorder
+                Background="#66000000"
+                CornerRadius="12"
+                HorizontalAlignment="Right"
+                Margin="0,0,10,10"
+                Padding="10,4"
+                VerticalAlignment="Bottom"
+                x:Name="PlayCountBorder">
+
+                <StackPanel Orientation="Horizontal">
+                    <Path
+                        Data="M256 32C114.52 32 0 146.496 0 288v48a32 32 0 0 0 17.689 28.622l14.383 7.191C34.083 431.903 83.421 480 144 480h24c13.255 0 24-10.745 24-24V280c0-13.255-10.745-24-24-24h-24c-31.342 0-59.671 12.879-80 33.627V288c0-105.869 86.131-192 192-192s192 86.131 192 192v1.627C427.671 268.879 399.342 256 368 256h-24c-13.255 0-24 10.745-24 24v176c0 13.255 10.745 24 24 24h24c60.579 0 109.917-48.098 111.928-108.187l14.382-7.191A32 32 0 0 0 512 336v-48c0-141.479-114.496-256-256-256z"
+                        Fill="White"
+                        Height="16"
+                        Margin="0,0,0,0"
+                        Stretch="Uniform"
+                        Width="16" />
+
+                    <TextBlock
+                        Foreground="White"
+                        Margin="15,0,0,0"
+                        Text="{Binding Path=PlayCountText}" />
+                </StackPanel>
+            </mah:ClipBorder>
+        </Grid>
+
+        <Button
+            Content="{Binding Path=Title}"
+            Grid.Row="1"
+            HorizontalAlignment="Left"
+            Margin="0,10,0,0"
+            Style="{StaticResource MouseOverAccentButtonStyle}" />
+    </Grid>
+
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="Mouse.MouseEnter">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation
+                        AccelerationRatio="0.10"
+                        DecelerationRatio="0.25"
+                        Duration="0:0:0.5"
+                        Storyboard.TargetName="MaskRectangle"
+                        Storyboard.TargetProperty="(Button.Opacity)"
+                        To="1" />
+
+                    <DoubleAnimation
+                        AccelerationRatio="0.10"
+                        DecelerationRatio="0.25"
+                        Duration="0:0:0.5"
+                        Storyboard.TargetName="PlayButton"
+                        Storyboard.TargetProperty="(Button.Opacity)"
+                        To="1" />
+
+                    <DoubleAnimation
+                        AccelerationRatio="0.10"
+                        DecelerationRatio="0.25"
+                        Duration="0:0:0.5"
+                        Storyboard.TargetName="PlayCountBorder"
+                        Storyboard.TargetProperty="(Button.Opacity)"
+                        To="0" />
+
+                    <DoubleAnimation
+                        AccelerationRatio="0.10"
+                        DecelerationRatio="0.25"
+                        Duration="0:0:0.2"
+                        Storyboard.TargetName="MainContentTranslateTransform"
+                        Storyboard.TargetProperty="(TranslateTransform.Y)"
+                        To="-10" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Mouse.MouseLeave">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation
+                        AccelerationRatio="0.10"
+                        DecelerationRatio="0.25"
+                        Duration="0:0:0.5"
+                        Storyboard.TargetName="MaskRectangle"
+                        Storyboard.TargetProperty="(Button.Opacity)"
+                        To="0" />
+
+                    <DoubleAnimation
+                        AccelerationRatio="0.10"
+                        DecelerationRatio="0.25"
+                        Duration="0:0:0.5"
+                        Storyboard.TargetName="PlayButton"
+                        Storyboard.TargetProperty="(Button.Opacity)"
+                        To="0" />
+
+                    <DoubleAnimation
+                        AccelerationRatio="0.10"
+                        DecelerationRatio="0.25"
+                        Duration="0:0:0.5"
+                        Storyboard.TargetName="PlayCountBorder"
+                        Storyboard.TargetProperty="(Button.Opacity)"
+                        To="1" />
+
+                    <DoubleAnimation
+                        AccelerationRatio="0.10"
+                        DecelerationRatio="0.25"
+                        Duration="0:0:0.2"
+                        Storyboard.TargetName="MainContentTranslateTransform"
+                        Storyboard.TargetProperty="(TranslateTransform.Y)"
+                        To="0" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+
+</UserControl>

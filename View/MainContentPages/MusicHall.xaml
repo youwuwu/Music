@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="Music.View.MainContentPages.MusicHall"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:Music.Model"
+    xmlns:tile="clr-namespace:Music.View.Tile"
+    xmlns:mainContentPages = "clr-namespace:Music.ViewModel.MainContentPages"
+    Padding="20"
+    d:DataContext="{d:DesignInstance mainContentPages:RecommendViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock
+                Margin="0,21"
+                FontSize="32"
+                FontWeight="Bold">
+                音乐馆
+            </TextBlock>
+
+            <ItemsControl ItemsSource="{Binding Path=AlbumsGroupList}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="model:AlbumsGroup">
+                        <tile:AlbumsGroupTileViewer />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

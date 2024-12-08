@@ -1,0 +1,90 @@
+﻿<UserControl
+    Background="Transparent"
+    d:DataContext="{d:DesignInstance player:WaveDirectSoundPlayer}"
+    mc:Ignorable="d"
+    x:Class="Music.Player.VolumePopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="clr-namespace:Music.Player"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid IsSharedSizeScope="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" SharedSizeGroup="D20EE3D36" />
+                <RowDefinition Height="Auto" SharedSizeGroup="UH6HR7Ho8" />
+            </Grid.RowDefinitions>
+            <Grid.Effect>
+                <DropShadowEffect
+                    BlurRadius="20"
+                    Opacity="0.3"
+                    ShadowDepth="0" />
+            </Grid.Effect>
+
+            <Border
+                Background="White"
+                BorderThickness="0"
+                CornerRadius="10"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+
+            <Path
+                Data="M7,10L12,15L17,10H7Z"
+                Fill="White"
+                Grid.Row="1"
+                Height="11"
+                Margin="0,0,0,0"
+                Stretch="Uniform" />
+        </Grid>
+
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" SharedSizeGroup="D20EE3D36" />
+                <RowDefinition Height="Auto" SharedSizeGroup="UH6HR7Ho8" />
+            </Grid.RowDefinitions>
+
+            <Border
+                Background="Transparent"
+                BorderThickness="0"
+                MinWidth="100"
+                Padding="26,15">
+                <StackPanel>
+                    <Slider
+                        Height="127"
+                        IsMoveToPointEnabled="True"
+                        LargeChange="0.05"
+                        Margin="0,7"
+                        Maximum="1"
+                        Orientation="Vertical"
+                        SmallChange="0.01"
+                        Style="{StaticResource PlayerVolumeSliderStyle}"
+                        Value="{Binding Volume, Mode=TwoWay}"
+                        mah:SliderHelper.ChangeValueBy="LargeChange"
+                        mah:SliderHelper.EnableMouseWheel="MouseHover" />
+
+                    <TextBlock
+                        FontSize="16"
+                        HorizontalAlignment="Center"
+                        Margin="0,7"
+                        Text="{Binding Volume, Mode=OneWay, StringFormat={}{0:P0}}" />
+
+                    <Rectangle
+                        Fill="{DynamicResource MahApps.Brushes.Gray8}"
+                        Height="1"
+                        HorizontalAlignment="Stretch"
+                        Margin="-26,16" />
+
+                    <ToggleButton
+                        HorizontalAlignment="Center"
+                        IsChecked="{Binding IsMute, Mode=TwoWay}"
+                        Style="{StaticResource MuteToggleButtonStyle}" />
+
+                </StackPanel>
+            </Border>
+        </Grid>
+
+    </Grid>
+</UserControl>

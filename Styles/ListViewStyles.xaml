@@ -1,0 +1,73 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style
+        BasedOn="{StaticResource MahApps.Styles.ListViewItem}"
+        TargetType="{x:Type ListViewItem}"
+        x:Key="MenuListViewItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Grid
+                        Background="Transparent"
+                        RenderOptions.ClearTypeHint="{TemplateBinding RenderOptions.ClearTypeHint}"
+                        x:Name="RootGrid">
+                        <Border
+                            Background="Transparent"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            x:Name="Border" />
+                        <Grid Margin="{TemplateBinding BorderThickness}">
+                            <GridViewRowPresenter
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                x:Name="PART_RowPresenter" />
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Margin="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Visibility="Collapsed"
+                                x:Name="PART_ContentPresenter" />
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="GridView.ColumnCollection" Value="{x:Null}">
+                            <Setter Property="Visibility" TargetName="PART_ContentPresenter" Value="Visible" />
+                            <Setter Property="Visibility" TargetName="PART_RowPresenter" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style
+        BasedOn="{StaticResource MahApps.Styles.ListView}"
+        TargetType="{x:Type ListView}"
+        x:Key="MenuListViewStyle">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource MenuListViewItemStyle}" />
+
+        <Setter Property="Background" Value="Transparent" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListView">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding mah:ControlsHelper.CornerRadius}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        x:Name="Border">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
